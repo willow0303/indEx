@@ -1,0 +1,248 @@
+/* =========================================================
+ * AUDIT TRAIL (ACTIVITY HISTORY) STYLES
+ * UNIFIED VERSION - Strictly maps to student-main.css
+ * ========================================================= */
+
+/* --- 1. CONTAINER STRUCTURE --- */
+/* Matches dashboard content wrapper */
+.audit-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: var(--space-xl) var(--space-lg); /* 32px 24px */
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- 2. PAGE HEADER --- */
+.audit-header {
+    text-align: center;
+    margin-bottom: var(--space-xxl); /* 48px -> --space-xxl */
+}
+
+.audit-header h1 {
+    font-size: var(--font-size-h1); /* 40px or 32px depending on scale, unified */
+    font-weight: var(--font-weight-bold);
+    color: var(--maroon-primary);
+    margin-bottom: var(--space-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+}
+
+.audit-header h1 i {
+    font-size: 28px; /* Specific icon size for header */
+}
+
+.audit-header p {
+    font-size: var(--font-size-base);
+    color: var(--gray-medium);
+    font-weight: var(--font-weight-regular);
+}
+
+/* --- 3. TIMELINE CONTAINER --- */
+.timeline-container {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl); /* 32px */
+    box-shadow: var(--shadow);
+    border: 1px solid var(--gray-light); /* Added consistent border */
+    width: 100%;
+}
+
+/* --- 4. TIMELINE ITEM --- */
+.timeline-item {
+    display: flex;
+    gap: var(--space-md); /* 16px */
+    padding: var(--space-md) 0;
+    border-bottom: 1px solid var(--gray-lighter);
+    transition: background-color 0.2s ease;
+}
+
+.timeline-item:hover {
+    background-color: var(--cream-bg); /* Subtle hover effect */
+    padding-left: var(--space-sm); /* Slight indent on hover */
+    padding-right: var(--space-sm);
+    border-radius: var(--radius-sm);
+    margin: 0 -8px; /* Negative margin to counteract padding so layout doesn't shift */
+    width: calc(100% + 16px);
+}
+
+.timeline-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.timeline-item:first-child {
+    padding-top: 0;
+}
+
+/* --- 5. TIMELINE MARKER --- */
+.timeline-marker {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, var(--maroon-primary) 0%, var(--maroon-light) 100%);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-sm);
+    box-shadow: var(--shadow-sm);
+}
+
+/* --- 6. TIMELINE CONTENT --- */
+.timeline-content {
+    flex: 1;
+    min-width: 0; /* Prevents flex item from overflowing */
+}
+
+.timeline-time {
+    font-size: 13px;
+    color: var(--gray-medium);
+    font-weight: var(--font-weight-medium);
+    margin-bottom: var(--space-xs);
+    font-family: 'Courier New', monospace; /* Preserved specific font choice */
+    letter-spacing: -0.5px;
+}
+
+.timeline-action {
+    font-size: 15px;
+    color: var(--gray-dark);
+    margin-bottom: var(--space-xs);
+    line-height: 1.5;
+}
+
+.timeline-action strong {
+    color: var(--maroon-primary);
+    font-weight: var(--font-weight-semibold);
+}
+
+.timeline-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    margin-top: var(--space-sm);
+}
+
+.timeline-meta span {
+    font-size: 13px;
+    color: var(--gray-medium);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.timeline-meta i {
+    font-size: 12px;
+    color: var(--maroon-light); /* Slightly lighter than primary for icons */
+}
+
+/* --- 7. EMPTY STATE --- */
+.empty-state {
+    text-align: center;
+    padding: var(--space-xxl) var(--space-xl);
+}
+
+.empty-state i {
+    font-size: 64px;
+    color: var(--maroon-primary);
+    opacity: 0.2;
+    margin-bottom: var(--space-lg);
+}
+
+.empty-state h3 {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--gray-dark);
+    margin-bottom: var(--space-sm);
+}
+
+.empty-state p {
+    font-size: 15px;
+    color: var(--gray-medium);
+}
+
+/* --- 8. RESPONSIVE --- */
+@media (max-width: 768px) {
+    .audit-container {
+        padding: var(--space-lg) var(--space-md);
+    }
+    
+    .audit-header {
+        margin-bottom: var(--space-xl);
+    }
+    
+    .audit-header h1 {
+        font-size: 26px;
+        flex-direction: column;
+        gap: var(--space-sm);
+    }
+    
+    .timeline-container {
+        padding: var(--space-lg);
+    }
+    
+    .timeline-item {
+        gap: var(--space-sm);
+    }
+    
+    .timeline-marker {
+        width: 32px;
+        height: 32px;
+        font-size: 12px;
+    }
+    
+    .timeline-meta {
+        flex-direction: column;
+        gap: var(--space-xs);
+    }
+}
+
+@media (max-width: 480px) {
+    .audit-container {
+        padding: var(--space-md);
+    }
+    
+    .audit-header h1 {
+        font-size: 22px;
+    }
+    
+    .timeline-container {
+        padding: var(--space-md);
+    }
+    
+    .timeline-marker {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .empty-state i {
+        font-size: 48px;
+    }
+}
+
+/* --- 9. PRINT STYLES --- */
+@media print {
+    body {
+        background: white;
+    }
+    
+    .timeline-container {
+        box-shadow: none;
+        border: 1px solid var(--gray-light);
+    }
+    
+    .timeline-marker {
+        background: white;
+        color: var(--maroon-primary);
+        border: 2px solid var(--maroon-primary);
+        -webkit-print-color-adjust: exact; /* Try to force color printing if supported */
+    }
+}

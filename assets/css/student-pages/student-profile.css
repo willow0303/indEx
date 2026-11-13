@@ -1,0 +1,383 @@
+/* =========================================================
+ * STUDENT PROFILE SPECIFIC STYLES
+ * UNIFIED VERSION - Strictly maps to student-main.css
+ * ========================================================= */
+
+/* --- 1. LAYOUT & CONTAINER --- */
+.profile-container {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    /* Use system padding variables */
+    padding: var(--space-xl); 
+    background: transparent; /* Handled by main css */
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.profile-wrapper {
+    max-width: 1000px;
+    width: 100%;
+    padding-bottom: var(--space-xl);
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- 2. ALERTS (Floating) --- */
+.alert {
+    position: fixed;
+    top: var(--space-nav); /* Below nav */
+    right: var(--space-xl);
+    max-width: 400px;
+    padding: var(--space-md) var(--space-lg);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    z-index: 9999;
+    animation: slideInRight 0.4s ease;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: var(--font-size-sm);
+    margin-top: var(--space-md);
+}
+
+.alert-success {
+    background: #d1fae5;
+    color: #065f46;
+    border-left: 4px solid var(--success);
+}
+
+.alert-danger {
+    background: #fee2e2;
+    color: #991b1b;
+    border-left: 4px solid var(--danger);
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(400px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* --- 3. MAIN PROFILE CARD --- */
+.profile-main-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl); /* 32px */
+    box-shadow: var(--shadow);
+    border: 1px solid var(--gray-light);
+    margin-bottom: var(--space-lg);
+    animation: fadeInUp 0.6s ease;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.profile-content {
+    display: flex;
+    gap: var(--space-xxl); /* 42px approx */
+    align-items: center;
+}
+
+/* --- 4. PROFILE IMAGE SECTION --- */
+.profile-image-container {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.profile-image-wrapper {
+    position: relative;
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 6px solid var(--maroon-primary);
+    box-shadow: var(--shadow-lg);
+    transition: var(--transition);
+    background-color: var(--white);
+}
+
+.profile-image-wrapper:hover {
+    transform: scale(1.02);
+    box-shadow: 0 20px 40px rgba(123, 45, 38, 0.2);
+}
+
+.profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Status Badge */
+.profile-status-badge {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: linear-gradient(135deg, var(--maroon-primary) 0%, var(--maroon-light) 100%);
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-size: 10px;
+    color: var(--white);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    box-shadow: var(--shadow-sm);
+}
+
+.profile-status-badge::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: var(--success);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.1); }
+}
+
+/* --- 5. PROFILE DETAILS SECTION --- */
+.profile-details-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.profile-name-section {
+    padding-bottom: var(--space-md);
+    border-bottom: 2px solid var(--cream-bg);
+}
+
+.profile-name {
+    font-size: 2.5rem; /* 40px -> matches global h1 scale */
+    font-weight: 800; /* Extra bold for name */
+    color: var(--maroon-primary);
+    margin: 0 0 var(--space-sm) 0;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+}
+
+.profile-course {
+    font-size: 1.125rem; /* 18px */
+    font-weight: var(--font-weight-semibold);
+    color: var(--gray-dark);
+    margin: 0 0 var(--space-xs) 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.profile-course i {
+    color: var(--maroon-primary);
+    font-size: 1rem;
+}
+
+.profile-student-number {
+    font-size: var(--font-size-base); /* 16px */
+    font-weight: var(--font-weight-semibold);
+    color: var(--gray-medium);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.profile-student-number i {
+    color: var(--maroon-primary);
+}
+
+/* Contact Details */
+.profile-contact-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.profile-contact-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    font-size: var(--font-size-sm);
+    color: var(--gray-dark);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--gray-lighter);
+    border-radius: var(--radius-md);
+    transition: var(--transition);
+    border: 1px solid transparent;
+}
+
+.profile-contact-item:hover {
+    background: var(--cream-bg);
+    border-color: var(--maroon-light);
+    transform: translateX(4px);
+}
+
+.profile-contact-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(123, 45, 38, 0.1) 0%, rgba(245, 213, 200, 0.3) 100%);
+    border-radius: var(--radius-sm);
+    color: var(--maroon-primary);
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.profile-contact-text {
+    flex: 1;
+    font-weight: var(--font-weight-medium);
+    word-break: break-word;
+}
+
+/* --- 6. ACTION BUTTONS (Grid) --- */
+.profile-actions-compact {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-md);
+    animation: fadeInUp 0.6s ease 0.2s backwards;
+}
+
+.action-button-compact {
+    padding: var(--space-md);
+    background: var(--white);
+    border: 2px solid var(--gray-light);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    text-align: center;
+}
+
+.action-button-compact:hover {
+    border-color: var(--maroon-primary);
+    background: var(--white);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-3px);
+}
+
+.action-button-icon {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--cream-bg);
+    border-radius: var(--radius-md);
+    font-size: 18px;
+    color: var(--maroon-primary);
+    transition: var(--transition);
+}
+
+.action-button-compact:hover .action-button-icon {
+    background: linear-gradient(135deg, var(--maroon-primary) 0%, var(--maroon-light) 100%);
+    color: var(--white);
+    transform: scale(1.1);
+}
+
+.action-button-label {
+    font-size: 12px;
+    font-weight: var(--font-weight-bold);
+    color: var(--gray-dark);
+    transition: var(--transition);
+}
+
+.action-button-compact:hover .action-button-label {
+    color: var(--maroon-primary);
+}
+
+/* --- 7. RESPONSIVE --- */
+@media (max-width: 1024px) {
+    .profile-main-card {
+        padding: var(--space-lg);
+    }
+
+    .profile-content {
+        gap: var(--space-lg);
+    }
+
+    .profile-image-wrapper {
+        width: 180px;
+        height: 180px;
+    }
+
+    .profile-name {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-container {
+        padding: var(--space-lg);
+    }
+
+    .profile-main-card {
+        padding: var(--space-lg);
+    }
+
+    .profile-content {
+        flex-direction: column;
+        gap: var(--space-lg);
+        text-align: center;
+    }
+
+    .profile-image-wrapper {
+        width: 140px;
+        height: 140px;
+    }
+
+    .profile-details-container {
+        width: 100%;
+    }
+
+    .profile-name-section {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile-name {
+        font-size: 1.75rem;
+    }
+
+    .profile-course, .profile-student-number {
+        justify-content: center;
+    }
+
+    .profile-contact-item {
+        justify-content: center; /* Center text, icon stays left of text */
+        text-align: left;
+    }
+
+    .profile-actions-compact {
+        grid-template-columns: 1fr; /* Stack buttons on mobile */
+        gap: var(--space-sm);
+    }
+
+    .alert {
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        max-width: none;
+    }
+}

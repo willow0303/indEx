@@ -1,0 +1,611 @@
+/* --- 1. CONTAINER & LAYOUT --- */
+.professors-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-xl) var(--space-lg); 
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- 2. PAGE HEADER (Unified) --- */
+.page-header {
+    margin-bottom: var(--space-xl);
+    text-align: left;
+    width: 100%;
+    animation: fadeInDown 0.5s ease;
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.page-header-content {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.page-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--maroon-primary) 0%, var(--maroon-light) 100%);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: var(--white);
+    box-shadow: var(--shadow-lg);
+    flex-shrink: 0;
+}
+
+.page-title-section {
+    flex: 1;
+}
+
+.page-title {
+    font-size: 26px;
+    font-weight: var(--font-weight-bold);
+    color: var(--maroon-primary);
+    margin: 0;
+    line-height: 1.2;
+}
+
+.page-subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--gray-medium);
+    font-weight: var(--font-weight-regular);
+    margin-top: var(--space-xs);
+}
+
+/* --- 3. GRID SYSTEM --- */
+.professors-content {
+    width: 100%;
+}
+
+.professors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--space-lg);
+    width: 100%;
+}
+
+/* --- 4. PROFESSOR CARD (OLD UI) --- */
+.professor-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--gray-light);
+    display: flex;
+    flex-direction: column;
+    transition: var(--transition);
+    overflow: hidden;
+    height: 100%;
+    cursor: pointer;
+}
+
+.professor-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+    border-color: var(--maroon-primary);
+}
+
+.card-header {
+    background: linear-gradient(135deg, var(--maroon-primary) 0%, var(--maroon-light) 100%);
+    padding: var(--space-lg);
+    color: var(--white);
+    text-align: center;
+    position: relative;
+}
+
+.subject-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.subject-code {
+    font-size: 12px;
+    opacity: 0.9;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: rgba(255, 255, 255, 0.2);
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.professor-info {
+    padding: var(--space-xl) var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+    background: var(--white);
+}
+
+.professor-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px var(--cream-bg), var(--shadow-md);
+    margin-bottom: var(--space-lg);
+    overflow: hidden;
+    background: var(--gray-lighter);
+    transition: var(--transition);
+}
+
+/* MAROON BORDER ON HOVER */
+.professor-card:hover .professor-avatar {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 4px var(--maroon-primary), var(--shadow-md);
+}
+
+.professor-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.professor-details {
+    width: 100%;
+}
+
+.professor-name {
+    font-size: 1.25rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--gray-dark);
+    margin-bottom: var(--space-xs);
+    line-height: 1.3;
+}
+
+.professor-email {
+    font-size: var(--font-size-sm);
+    color: var(--gray-medium);
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.professor-email i {
+    color: var(--maroon-primary);
+    font-size: 12px;
+}
+
+/* --- 5. SIMPLE MODERN MODAL DESIGN (NO SCROLL) --- */
+.professor-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 10000;
+    animation: modalFadeIn 0.25s ease;
+    padding: 20px;
+}
+
+.professor-modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    position: relative;
+    background: white;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 520px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 0;
+    overflow: hidden;
+}
+
+@keyframes modalSlideUp {
+    from { 
+        opacity: 0;
+        transform: translateY(20px) scale(0.96);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.close-modal {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--gray-medium);
+    transition: all 0.2s ease;
+    z-index: 10;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.05);
+    font-weight: 400;
+    line-height: 1;
+}
+
+.close-modal:hover {
+    background: var(--maroon-primary);
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Modal Header with Avatar and Info */
+.modal-header-section {
+    background: linear-gradient(135deg, var(--maroon-primary) 0%, var(--maroon-light) 100%);
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+}
+
+.modal-avatar-large {
+    flex-shrink: 0;
+}
+
+.modal-avatar-large img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.modal-professor-info {
+    width: 100%;
+}
+
+.modal-prof-name {
+    font-size: 24px;
+    font-weight: 700;
+    color: white;
+    margin: 0 0 12px 0;
+    line-height: 1.2;
+}
+
+.modal-contact-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.modal-contact-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 400;
+}
+
+.modal-contact-item i {
+    width: 16px;
+    color: white;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.modal-contact-item a {
+    color: rgba(255, 255, 255, 0.95);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    word-break: break-word;
+}
+
+.modal-contact-item a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+/* Modal Body - Class Details */
+.modal-body {
+    padding: 28px 32px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.modal-detail-row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 16px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.modal-detail-label {
+    font-weight: 600;
+    color: var(--gray-medium);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.modal-detail-value {
+    color: var(--gray-dark);
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1.5;
+    word-break: break-word;
+}
+
+/* --- 6. EMPTY STATE --- */
+.empty-state {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 60px 40px;
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+    margin: 40px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--gray-light);
+}
+
+.empty-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: var(--space-lg);
+    background: var(--cream-bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--maroon-primary);
+    animation: float 3s ease-in-out infinite;
+    font-size: 36px;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+.empty-state h3 {
+    font-size: 22px;
+    font-weight: var(--font-weight-bold);
+    color: var(--gray-dark);
+    margin-bottom: var(--space-sm);
+}
+
+.empty-state p {
+    font-size: var(--font-size-base);
+    color: var(--gray-medium);
+    margin-bottom: var(--space-lg);
+    line-height: 1.6;
+}
+
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 32px;
+    background: linear-gradient(135deg, var(--maroon-primary) 0%, var(--maroon-light) 100%);
+    color: var(--white);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-base);
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+    box-shadow: var(--shadow-md);
+    gap: 8px;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* --- 7. RESPONSIVE --- */
+@media (max-width: 768px) {
+    .professors-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .professor-card {
+        flex-direction: row;
+        align-items: center;
+        text-align: left;
+    }
+    
+    .card-header {
+        width: 30%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: var(--space-md);
+        height: auto;
+        min-height: 120px;
+    }
+    
+    .subject-title {
+        font-size: var(--font-size-base);
+    }
+
+    .professor-info {
+        flex-direction: row;
+        width: 70%;
+        padding: var(--space-md);
+        gap: var(--space-md);
+        text-align: left;
+    }
+    
+    .professor-avatar {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 0;
+        flex-shrink: 0;
+        box-shadow: 0 0 0 2px var(--cream-bg);
+    }
+
+    .professor-name {
+        font-size: var(--font-size-lg);
+        margin-bottom: 4px;
+    }
+
+    .professor-email {
+        justify-content: flex-start;
+    }
+
+    .empty-state {
+        padding: var(--space-xl) var(--space-lg);
+    }
+
+    /* Modal Responsive */
+    .modal-content {
+        max-width: 90%;
+        margin: 20px;
+        border-radius: 16px;
+    }
+    
+    .modal-header-section {
+        padding: 28px 24px;
+    }
+    
+    .modal-avatar-large img {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .modal-prof-name {
+        font-size: 20px;
+    }
+
+    .modal-contact-item {
+        font-size: 13px;
+    }
+
+    .modal-body {
+        padding: 24px;
+    }
+
+    .modal-detail-row {
+        grid-template-columns: 90px 1fr;
+        gap: 12px;
+    }
+
+    .modal-detail-label {
+        font-size: 12px;
+    }
+
+    .modal-detail-value {
+        font-size: 14px;
+    }
+
+    .close-modal {
+        right: 12px;
+        top: 12px;
+        width: 28px;
+        height: 28px;
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .professor-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .card-header {
+        width: 100%;
+        padding: var(--space-md);
+        min-height: auto;
+    }
+    
+    .professor-info {
+        flex-direction: column;
+        width: 100%;
+        padding: var(--space-lg);
+    }
+    
+    .professor-avatar {
+        width: 80px;
+        height: 80px;
+        margin-bottom: var(--space-md);
+    }
+    
+    .professor-email {
+        justify-content: center;
+    }
+
+    .modal-content {
+        max-width: 95%;
+        border-radius: 12px;
+    }
+
+    .modal-header-section {
+        padding: 24px 20px;
+    }
+    
+    .modal-avatar-large img {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .modal-prof-name {
+        font-size: 18px;
+    }
+
+    .modal-contact-item {
+        font-size: 12px;
+    }
+
+    .modal-body {
+        padding: 20px;
+    }
+
+    .modal-detail-row {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+
+    .modal-detail-label {
+        font-size: 11px;
+    }
+
+    .modal-detail-value {
+        font-size: 13px;
+    }
+}

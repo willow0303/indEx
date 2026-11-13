@@ -1,0 +1,1084 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', 'Segoe UI', sans-serif;
+    background: #F9EFEF;
+    color: #333333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-wrapper {
+    flex: 1;
+}
+
+.container {
+    max-width: 100%;
+    margin: 0;
+    background: white;
+    overflow: hidden;
+}
+
+/* Header Styles - Compact with PSU Colors */
+.header {
+    background: #7B2D26;
+    color: white;
+    padding: 16px 24px;
+    border-bottom: 3px solid #F5A623;
+}
+
+.header-left {
+    margin-bottom: 12px;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    background: rgba(255, 255, 255, 0.15);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.back-link:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateX(-3px);
+}
+
+.back-link i {
+    font-size: 12px;
+    transition: transform 0.2s ease;
+}
+
+.back-link:hover i {
+    transform: translateX(-3px);
+}
+
+.class-info-header h1 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.class-section {
+    font-size: 12px;
+    opacity: 0.9;
+}
+
+.header-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+}
+
+.student-count {
+    font-size: 13px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.control-group {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Grading Period Buttons */
+.grading-period-buttons {
+    display: flex;
+    gap: 0;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    padding: 3px;
+}
+
+.btn-period {
+    background: transparent;
+    color: white;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-period:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.btn-period.active {
+    background: white;
+    color: #7B2D26;
+}
+
+/* Compact Button Styles */
+.btn {
+    background: white;
+    color: #7B2D26;
+    border: 1px solid #E0E0E0;
+    padding: 6px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    background: #F9EFEF;
+    border-color: #7B2D26;
+}
+
+.btn-refresh {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+select {
+    padding: 6px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    background: white;
+    color: #7B2D26;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Toolbar - Compact */
+.toolbar {
+    padding: 12px 24px;
+    background: #F9EFEF;
+    border-bottom: 2px solid #E0E0E0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.date-selector {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.date-selector label {
+    font-weight: 600;
+    color: #333333;
+    font-size: 12px;
+}
+
+input[type="date"] {
+    padding: 6px 10px;
+    border: 1px solid #E0E0E0;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+.add-column-group {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-add {
+    background: #7B2D26;
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    font-size: 12px;
+}
+
+.btn-add:hover {
+    background: #A74C42;
+    border-color: #A74C42;
+}
+
+.btn-attendance {
+    background: #7B2D26;
+    color: white;
+    border: none;
+}
+
+.btn-attendance:hover {
+    background: #A74C42;
+}
+
+/* SPREADSHEET TABLE - Excel-like */
+.table-wrapper {
+    overflow: auto;
+    max-height: calc(100vh - 350px);
+    background: white;
+    border: 1px solid #c0c0c0;
+    margin: 0;
+}
+
+.table-wrapper::-webkit-scrollbar {
+    width: 16px;
+    height: 16px;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+    background: #f0f0f0;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+    background: #c0c0c0;
+    border: 1px solid #a0a0a0;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #a0a0a0;
+}
+
+.table-wrapper::-webkit-scrollbar-corner {
+    background: #f0f0f0;
+}
+
+/* Excel-style Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    table-layout: fixed;
+    font-size: 11px;
+}
+
+/* Freeze first two columns */
+thead {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+
+th {
+    background: #e0e0e0;
+    background: linear-gradient(180deg, #f0f0f0 0%, #e0e0e0 100%);
+    color: #333333;
+    padding: 4px 6px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 11px;
+    border: 1px solid #a0a0a0;
+    border-right: 1px solid #808080;
+    border-bottom: 2px solid #808080;
+    white-space: nowrap;
+    vertical-align: middle;
+    height: 32px;
+    position: relative;
+}
+
+/* Column widths */
+th:nth-child(1) { 
+    width: 40px;
+    min-width: 40px;
+}
+
+th:nth-child(2) { 
+    width: 200px;
+    min-width: 200px;
+    text-align: left;
+    padding-left: 8px;
+}
+
+th.col-attendance {
+    width: 70px;
+    min-width: 70px;
+}
+
+th.col-grade {
+    width: 70px;
+    min-width: 70px;
+}
+
+th.col-average {
+    width: 80px;
+    min-width: 80px;
+    background: #d4d4d4;
+    font-weight: 800;
+}
+
+/* Freeze first two columns */
+th:nth-child(1),
+td:nth-child(1) {
+    position: sticky;
+    left: 0;
+    z-index: 15;
+    background: #f5f5f5;
+    border-right: 2px solid #808080;
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+    position: sticky;
+    left: 40px;
+    z-index: 15;
+    background: white;
+    border-right: 2px solid #808080;
+}
+
+thead th:nth-child(1) {
+    z-index: 25;
+}
+
+thead th:nth-child(2) {
+    z-index: 25;
+}
+
+.date-label {
+    display: block;
+    font-size: 9px;
+    margin-top: 2px;
+    opacity: 0.7;
+    font-weight: 500;
+}
+
+/* Delete column button - minimal */
+.btn-delete-column {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: #ff3b30;
+    border: none;
+    color: white;
+    width: 16px;
+    height: 16px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 9px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+th:hover .btn-delete-column {
+    opacity: 0.8;
+}
+
+.btn-delete-column:hover {
+    opacity: 1 !important;
+}
+
+/* Grade Modal */
+.grade-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    animation: fadeIn 0.2s ease;
+}
+
+.grade-modal-overlay.closing {
+    animation: fadeOut 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.grade-modal {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 500px;
+    animation: slideUp 0.2s ease;
+}
+
+.grade-modal-overlay.closing .grade-modal {
+    animation: slideDown 0.2s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+}
+
+.grade-modal-header {
+    padding: 20px 24px;
+    border-bottom: 2px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, #7B2D26 0%, #A74C42 100%);
+    color: white;
+    border-radius: 12px 12px 0 0;
+}
+
+.grade-modal-header h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.modal-close {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.modal-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.grade-modal-body {
+    padding: 24px;
+}
+
+.modal-info {
+    background: #F9EFEF;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 24px;
+}
+
+.info-item {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.info-item:last-child {
+    margin-bottom: 0;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #777777;
+    min-width: 80px;
+    font-size: 13px;
+}
+
+.info-value {
+    color: #333333;
+    font-weight: 500;
+    font-size: 13px;
+}
+
+.modal-form {
+    background: white;
+}
+
+.form-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    flex: 1;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    color: #333333;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+.modal-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.2s;
+    font-family: 'Arial', sans-serif;
+}
+
+.modal-input:focus {
+    outline: none;
+    border-color: #7B2D26;
+    box-shadow: 0 0 0 3px rgba(123, 45, 38, 0.1);
+}
+
+.form-divider {
+    font-size: 28px;
+    font-weight: 300;
+    color: #ccc;
+    padding-bottom: 8px;
+}
+
+.calculated-percentage {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border: 2px solid #bae6fd;
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.percentage-label {
+    font-weight: 600;
+    color: #0369a1;
+    font-size: 14px;
+}
+
+.percentage-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: #0369a1;
+}
+
+.grade-modal-footer {
+    padding: 16px 24px;
+    border-top: 2px solid #f0f0f0;
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    background: #fafafa;
+    border-radius: 0 0 12px 12px;
+}
+
+.btn-modal {
+    padding: 10px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-cancel {
+    background: #e0e0e0;
+    color: #333333;
+}
+
+.btn-cancel:hover {
+    background: #d0d0d0;
+}
+
+.btn-save {
+    background: linear-gradient(135deg, #7B2D26 0%, #A74C42 100%);
+    color: white;
+}
+
+.btn-save:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(123, 45, 38, 0.3);
+}
+
+.form-note {
+    margin-top: 16px;
+    padding: 12px;
+    background: #fff8e1;
+    border-left: 3px solid #F5A623;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: #856404;
+}
+
+.form-note i {
+    font-size: 16px;
+    color: #F5A623;
+}
+
+/* Table Body - Excel cells */
+tbody tr {
+    height: 28px;
+}
+
+tbody tr:hover {
+    background: #fffacd !important;
+}
+
+td {
+    padding: 2px 6px;
+    border: 1px solid #d0d0d0;
+    text-align: center;
+    font-size: 11px;
+    height: 28px;
+    background: white;
+    vertical-align: middle;
+}
+
+td:nth-child(1) {
+    background: #f5f5f5;
+    font-weight: 600;
+    color: #777777;
+    text-align: center;
+}
+
+td:nth-child(2) {
+    text-align: left;
+    padding-left: 8px;
+    font-weight: 500;
+    background: white;
+}
+
+/* Editable cells - Excel-like selection */
+.editable {
+    cursor: cell;
+    transition: none;
+    position: relative;
+}
+
+.editable:hover {
+    box-shadow: inset 0 0 0 2px #4472c4;
+    background: #e7f3ff;
+}
+
+.editable.editing {
+    padding: 0;
+    box-shadow: inset 0 0 0 2px #4472c4;
+}
+
+.editable input {
+    width: 100%;
+    height: 100%;
+    padding: 2px 6px;
+    border: none;
+    text-align: center;
+    font-size: 11px;
+    font-family: 'Arial', sans-serif;
+    background: white;
+    box-shadow: inset 0 0 0 2px #4472c4;
+}
+
+.editable input:focus {
+    outline: none;
+}
+
+.grade-input {
+    width: 100%;
+    height: 26px;
+    padding: 2px 6px;
+    border: none;
+    text-align: center;
+    font-size: 11px;
+    font-family: 'Arial', sans-serif;
+    background: white;
+}
+
+/* Attendance cells - Excel dropdown style with FIXED COLORS */
+.attendance-cell {
+    padding: 1px;
+}
+
+.attendance-select {
+    width: 100%;
+    height: 26px;
+    padding: 2px 2px;
+    border: 1px solid #d0d0d0;
+    border-radius: 0;
+    font-size: 9px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    appearance: none;
+    background-position: right 2px center;
+    background-repeat: no-repeat;
+    background-size: 8px;
+}
+
+/* CRITICAL FIX: Attendance status colors with maximum specificity */
+select.attendance-select.present,
+.attendance-select.present {
+    background-color: #c6efce !important;
+    color: #006100 !important;
+    border-color: #00b050 !important;
+}
+
+select.attendance-select.absent,
+.attendance-select.absent {
+    background-color: #ffc7ce !important;
+    color: #9c0006 !important;
+    border-color: #ff0000 !important;
+}
+
+select.attendance-select.late,
+.attendance-select.late {
+    background-color: #ffeb9c !important;
+    color: #9c5700 !important;
+    border-color: #ffc000 !important;
+}
+
+select.attendance-select.excused,
+.attendance-select.excused {
+    background-color: #bdd7ee !important;
+    color: #1f4e78 !important;
+    border-color: #2e75b6 !important;
+}
+
+/* Ensure option elements inherit colors */
+.attendance-select option[value="present"] {
+    background-color: #c6efce;
+    color: #006100;
+}
+
+.attendance-select option[value="absent"] {
+    background-color: #ffc7ce;
+    color: #9c0006;
+}
+
+.attendance-select option[value="late"] {
+    background-color: #ffeb9c;
+    color: #9c5700;
+}
+
+.attendance-select option[value="excused"] {
+    background-color: #bdd7ee;
+    color: #1f4e78;
+}
+
+/* Hover states maintain colors */
+.attendance-select.present:hover {
+    background-color: #b3e6c1 !important;
+}
+
+.attendance-select.absent:hover {
+    background-color: #ffb4bb !important;
+}
+
+.attendance-select.late:hover {
+    background-color: #ffe189 !important;
+}
+
+.attendance-select.excused:hover {
+    background-color: #aac9e3 !important;
+}
+
+/* Focus states */
+.attendance-select:focus {
+    outline: 2px solid #4472c4;
+    outline-offset: -2px;
+}
+
+/* Student name cell - ENHANCED clickability */
+.student-name-cell {
+    cursor: pointer !important;
+    transition: all 0.2s ease;
+    position: relative;
+    user-select: none;
+}
+
+.student-name-cell::after {
+    content: '\f35d';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    font-size: 10px;
+    color: #7B2D26;
+    opacity: 0;
+    margin-left: 8px;
+    transition: opacity 0.2s ease;
+}
+
+.student-name-cell:hover {
+    background: #e7f3ff !important;
+    color: #7B2D26 !important;
+    text-decoration: underline;
+}
+
+.student-name-cell:hover::after {
+    opacity: 0.6;
+}
+
+.student-name-cell:active {
+    background: #d0e7ff !important;
+    transform: translateX(2px);
+}
+
+/* Average - highlighted like Excel */
+.total-cell {
+    font-weight: 700;
+    background: #fff2cc !important;
+    border: 1px solid #d0d0d0;
+    color: #333333;
+}
+
+tbody tr:hover .total-cell {
+    background: #ffe699 !important;
+}
+
+/* Empty state - minimal */
+.empty-state-container {
+    padding: 40px 24px;
+    background: white;
+    border: 1px solid #d0d0d0;
+}
+
+.empty-state {
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.empty-state i {
+    font-size: 48px;
+    color: #A74C42;
+    margin-bottom: 16px;
+}
+
+.empty-state h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+    color: #333333;
+}
+
+.empty-state p {
+    color: #777777;
+    margin-bottom: 16px;
+    font-size: 13px;
+}
+
+.btn-primary {
+    background: #7B2D26;
+    color: white;
+    padding: 10px 20px;
+    font-size: 13px;
+    border: none;
+    border-radius: 4px;
+}
+
+.btn-primary:hover {
+    background: #A74C42;
+}
+
+/* Info Panel - Compact */
+.info-panel {
+    padding: 12px 24px;
+    background: #F9EFEF;
+    border-top: 1px solid #d0d0d0;
+    font-size: 11px;
+}
+
+.info-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 6px;
+    line-height: 1.4;
+}
+
+.info-row:last-child {
+    margin-bottom: 0;
+}
+
+.info-row strong {
+    color: #7B2D26;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 160px;
+    font-size: 11px;
+}
+
+.info-row i {
+    font-size: 12px;
+    color: #F5A623;
+}
+
+.info-row span {
+    color: #333333;
+    font-size: 11px;
+}
+
+/* Alert Messages - Compact */
+.alert {
+    padding: 10px 16px;
+    margin: 12px 24px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+    border-left: 3px solid #28a745;
+}
+
+.alert-error {
+    background: #f8d7da;
+    color: #721c24;
+    border-left: 3px solid #dc3545;
+}
+
+/* Loading overlay */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.loading-spinner {
+    background: white;
+    padding: 24px 32px;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid #d0d0d0;
+}
+
+.loading-spinner i {
+    font-size: 32px;
+    color: #7B2D26;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+.loading-spinner p {
+    margin-top: 12px;
+    color: #333333;
+    font-size: 13px;
+}
+
+/* No data row */
+.no-data-row td {
+    padding: 2rem;
+    text-align: center;
+    color: #777777;
+    font-size: 12px;
+}
+
+/* Print styles */
+@media print {
+    .header-controls,
+    .toolbar,
+    .btn-delete-column,
+    .info-panel,
+    .back-link,
+    .btn-refresh {
+        display: none !important;
+    }
+    
+    .table-wrapper {
+        max-height: none;
+        overflow: visible;
+        border: none;
+    }
+    
+    th, td {
+        border: 1px solid #333333 !important;
+    }
+    
+    .header {
+        padding: 12px;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .header {
+        padding: 12px 16px;
+    }
+    
+    .toolbar {
+        padding: 8px 16px;
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .date-selector,
+    .add-column-group {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .info-panel {
+        padding: 8px 16px;
+    }
+}

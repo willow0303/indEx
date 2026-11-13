@@ -1,0 +1,946 @@
+/* =========================================================
+ * LANDING PAGE - UNIQUE STYLES (landing.css)
+ * Relies heavily on variables and base styles from main.css
+ * ========================================================= */
+
+/* ---------- Fluid Typography Variables (Keep only the clamp values) ---------- */
+:root {
+    --h1-min: 1.8rem;
+    --h1-max: 4rem;
+    --h2-min: 1.2rem;
+    --h2-max: 2.8rem;
+    --maroon: var(--maroon-primary); /* Alias for quick local reference */
+    --gold: var(--gold-accent);
+}
+
+/* TYPOGRAPHY (Only keeping rules necessary for CLAMP overrides and unique styling) */
+h1, h2, h3 {
+    color: var(--gray-900);
+    font-weight: 600;
+}
+
+h1 {
+    font-size: clamp(var(--h1-min), 4.5vw, var(--h1-max)); /* Handles large screen scaling */
+    line-height: 1.1;
+    letter-spacing: -1px;
+}
+
+h2 {
+    font-size: clamp(var(--h2-min), 2.6vw, var(--h2-max)); /* Handles large screen scaling */
+    margin-bottom: 24px;
+    text-align: center;
+    color: var(--maroon);
+    position: relative;
+    font-weight: 700;
+}
+
+/* Unique Underline for H2 */
+h2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--gold-accent);
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
+h3 {
+    font-size: clamp(1.2rem, 3.5vw, 1.5rem); /* Added clamp for smoother scaling */
+    font-weight: 600;
+}
+
+/* ==========================================
+ * LAYOUT
+ * ========================================== */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+}
+
+/* General Section Padding (Adjusted for consistency) */
+section {
+    padding: 100px 0;
+}
+
+.section-intro {
+    max-width: 800px;
+    margin: 0 auto 60px;
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--gray-700);
+}
+
+/* ==========================================
+ * BUTTONS (Keeping unique styling for landing page buttons)
+ * ========================================== */
+
+.primary-btn {
+    /* Base styles inherited from global .btn .btn-primary */
+    border-radius: 50px; 
+    padding: 14px 32px;
+    font-size: 1rem;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(123, 45, 38, 0.3);
+    position: relative;
+    overflow: hidden;
+    /* Ensuring primary color from global CSS is used */
+    background: linear-gradient(135deg, var(--maroon-primary) 0%, var(--maroon-dark) 100%);
+}
+
+/* Unique shine animation */
+.primary-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.primary-btn:hover::before {
+    left: 100%;
+}
+
+.primary-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(123, 45, 38, 0.4);
+}
+
+.primary-btn:active {
+    transform: scale(0.98) translateY(0);
+}
+
+.primary-btn-outline {
+    background: transparent;
+    border: 2px solid var(--maroon);
+    color: var(--maroon);
+    border-radius: 50px;
+    padding: 14px 28px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+.primary-btn-outline:hover {
+    background: var(--maroon);
+    color: var(--white);
+    box-shadow: 0 4px 15px rgba(123, 45, 38, 0.2);
+}
+
+/* ==========================================
+ * FLASH MESSAGE (Unique Structure/Animation)
+ * ========================================== */
+.flash-message {
+    position: fixed;
+    top: 0; /* Attach to top */
+    left: 0;
+    width: 100%;
+    z-index: 2000; /* High z-index */
+    background: #d4edda;
+    color: #155724;
+    padding: 15px 20px;
+    text-align: center;
+    border-bottom: 3px solid #28a745;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    animation: slideDown 0.5s ease;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ==========================================
+ * NAVBAR (UNIQUE LANDING PAGE NAVIGATION)
+ * ========================================== */
+.navbar {
+    background-color: rgba(123, 45, 38, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Raised z-index */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.school-logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    z-index: 1001; /* Ensure logo is above menu toggle */
+}
+
+.school-logo-img {
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--gold);
+}
+
+.navbar-title {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--white);
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    pointer-events: none;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-link {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 50px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.nav-btn {
+    color: var(--white);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    background: transparent;
+    border-radius: 50px;
+    padding: 8px 24px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+    background-color: var(--white);
+    color: var(--maroon);
+    border-color: var(--white);
+}
+
+.nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1002;
+}
+
+.hamburger {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background: var(--white);
+    position: relative;
+    transition: transform 0.3s ease, background 0.3s ease;
+    border-radius: 2px;
+}
+
+.hamburger::before,
+.hamburger::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background: var(--white);
+    left: 0;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+.hamburger::before { top: -8px; }
+.hamburger::after { bottom: -8px; }
+
+/* ==========================================
+ * HERO SECTION (UNIQUE)
+ * ========================================== */
+.hero {
+    padding: 140px 0 120px;
+    background: var(--white);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* Use data-url for pattern */
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="%23F5A623" opacity="0.1"/></svg>') repeat;
+    opacity: 0.4;
+    z-index: 0;
+}
+
+.hero .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 60px;
+    position: relative;
+    z-index: 1;
+    /* Use variables for colors */
+    background: rgba(249, 239, 239, 0.8); 
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 60px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+}
+
+.hero-text {
+    flex: 1;
+    min-width: 300px;
+}
+
+.hero-text h1 {
+    font-weight: 800;
+    margin-bottom: 24px;
+    /* Gradient Text Style */
+    background: linear-gradient(135deg, var(--maroon), var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-text .subheader {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    margin-bottom: 40px;
+    max-width: 500px;
+    color: var(--gray-700);
+    font-weight: 400;
+}
+
+.hero-img {
+    flex: 1;
+    text-align: center;
+    min-width: 300px;
+    position: relative;
+}
+
+.hero-img img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+    animation: float 6s ease-in-out infinite;
+}
+
+.hero-img img:hover {
+    transform: scale(1.02);
+}
+
+/* ==========================================
+ * WHY SECTION (UNIQUE)
+ * ========================================== */
+.why {
+    padding: 120px 0;
+    background: var(--white);
+    position: relative;
+    overflow: hidden;
+}
+
+.why::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 10% 20%, rgba(245, 166, 35, 0.05) 0%, transparent 20%);
+    z-index: 0;
+}
+
+.why .container {
+    position: relative;
+    z-index: 1;
+    /* Use variables for colors */
+    background: var(--cream-bg); 
+    border-radius: 24px;
+    padding: 60px 40px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.card {
+    background-color: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: 20px;
+    padding: 40px 30px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    background: var(--maroon); /* Set base color for before */
+}
+
+/* Specific card accents for visual distinction */
+.why-grid .card:nth-child(1)::before { background: linear-gradient(90deg, var(--maroon-light), var(--maroon)); }
+.why-grid .card:nth-child(2)::before { background: linear-gradient(90deg, var(--gold), var(--gold-accent)); }
+.why-grid .card:nth-child(3)::before { background: linear-gradient(90deg, var(--maroon), var(--maroon-dark)); }
+
+.card:hover::before {
+    transform: scaleX(1);
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: var(--maroon);
+}
+
+.card p {
+    color: var(--gray-700);
+    font-size: 0.95rem;
+}
+
+/* ==========================================
+ * ROLE-BASED SECTION (UNIQUE)
+ * ========================================== */
+.role-based-section {
+    padding: 100px 0;
+    background: var(--gray-50); /* Used gray-50 from global variables */
+}
+
+.role-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    margin-top: 60px;
+}
+
+.role-card {
+    border-radius: 24px;
+    padding: 50px;
+    transition: all 0.3s ease;
+    border: 1px solid var(--gray-200);
+    background: var(--white);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+}
+
+/* Emphasis on the cards */
+.role-card.professor, .role-card.student {
+    background: var(--white);
+    border-color: var(--maroon-light);
+    transform: scale(1.03);
+    box-shadow: 0 20px 50px rgba(123, 45, 38, 0.15);
+    z-index: 2;
+}
+
+.role-icon {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    text-align: center;
+    border-radius: 24px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
+
+/* Specific Role Colors */
+.role-card.student .role-icon { background: #EBF5FB; color: var(--info); }
+.role-card.professor .role-icon { background: #E9F7EF; color: var(--success); }
+
+.role-card h3 {
+    font-size: 2rem;
+    color: var(--maroon);
+    margin-bottom: 15px;
+}
+
+.role-card p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    color: var(--gray-700);
+}
+
+.role-card ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 35px;
+}
+
+.role-card ul li {
+    font-weight: 500;
+    margin-bottom: 12px;
+    position: relative;
+    padding-left: 30px;
+    color: var(--gray-700);
+}
+
+.role-card ul li::before {
+    content: '✔';
+    position: absolute;
+    left: 0;
+    color: var(--maroon);
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.role-card .primary-btn-outline {
+    width: 100%;
+    text-align: center;
+}
+
+/* ==========================================
+ * DASHBOARD SHOWCASE (UNIQUE)
+ * ========================================== */
+.dashboard-showcase {
+    padding: 100px 0;
+    background: var(--cream-bg); /* Using cream-bg variable */
+    text-align: center;
+}
+
+.dashboard-showcase .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.dashboard-text {
+    max-width: 800px;
+    margin: 0 auto 50px;
+}
+
+.dashboard-text h2 {
+    margin-bottom: 15px;
+}
+
+.dashboard-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    border: 4px solid rgba(255,255,255,0.5);
+}
+
+/* ==========================================
+ * COMPARISON SECTION
+ * ========================================== */
+.classroom-comparison-section {
+    background: var(--white);
+    padding: 100px 0;
+}
+
+.classroom-comparison-section .container {
+    background: var(--white);
+    border-radius: 24px;
+    padding: 60px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+    border: 1px solid var(--gray-100);
+    display: block; 
+}
+
+.comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin-top: 40px;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.disconnected-column, .connected-column {
+    padding: 0;
+    background: none;
+}
+
+.disconnected-column h3, .connected-column h3 {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.disconnected-column ul, .connected-column ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.disconnected-column ul li, .connected-column ul li {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+    position: relative;
+    padding-left: 40px;
+    display: flex;
+    align-items: center;
+}
+
+/* Disconnected (Red/Danger) */
+.disconnected-column h3 { color: var(--gray-600); }
+.disconnected-column ul li { color: var(--gray-600); }
+
+.disconnected-column ul li::before {
+    content: '✕';
+    position: absolute;
+    left: 0;
+    top: 2px;
+    color: var(--danger);
+    font-weight: bold;
+    background: #fdedec;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+}
+
+/* Connected (Green/Success) */
+.connected-column h3 { color: var(--success); }
+.connected-column ul li { color: var(--gray-700); }
+
+.connected-column ul li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    top: 2px;
+    color: var(--success);
+    font-weight: bold;
+    background: #eafaf1;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+}
+
+/* ==========================================
+ * CTA SECTION (UNIQUE)
+ * ========================================== */
+.cta-section {
+    padding: 120px 0;
+    background: linear-gradient(135deg, var(--maroon) 0%, var(--maroon-dark) 100%);
+    color: var(--white);
+    text-align: center;
+    position: relative;
+}
+
+.cta-section .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    position: relative;
+    z-index: 2;
+}
+
+.cta-section h2 {
+    color: var(--white);
+    font-size: 3rem;
+    margin-bottom: 0;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.cta-section h2::after {
+    display: none;
+}
+
+.cta-section p {
+    font-size: 1.3rem;
+    max-width: 650px;
+    color: var(--maroon-lighter);
+    margin-bottom: 15px;
+    font-weight: 300;
+}
+
+.cta-section .primary-btn {
+    background: var(--gold);
+    color: var(--maroon);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    padding: 18px 40px;
+    font-size: 1.1rem;
+}
+
+.cta-section .primary-btn:hover {
+    background: var(--white);
+    color: var(--maroon);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+
+.cta-section .primary-btn::before {
+    display: none;
+}
+
+/* ==========================================
+ * FOOTER (UNIQUE)
+ * ========================================== */
+.footer {
+    background-color: var(--maroon-dark);
+    color: var(--white);
+    padding: 25px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.footer-link {
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.footer-link:hover {
+    color: var(--white);
+    opacity: 1;
+}
+
+/* ==========================================
+ * ANIMATIONS (UNIQUE)
+ * ========================================== */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+}
+
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.animate-on-scroll.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.animate-on-scroll[data-delay="100"] { transition-delay: 100ms; }
+.animate-on-scroll[data-delay="200"] { transition-delay: 200ms; }
+.animate-on-scroll[data-delay="300"] { transition-delay: 300ms; }
+
+/* ==========================================
+ * RESPONSIVE MEDIA QUERIES (UNIQUE LAYOUT RULES)
+ * ========================================== */
+
+/* ---------- Base small-screen (mobile) 0–479px ---------- */
+@media (max-width: 479px) {
+    :root { --radius-lg: 18px; }
+
+    /* Global section padding reduced for small phones */
+    .hero, .why, .role-based-section, .dashboard-showcase, .classroom-comparison-section, .cta-section {
+        padding: 48px 0;
+    }
+
+    /* Containers - tighten horizontal padding */
+    .container { padding-left: 16px; padding-right: 16px; }
+
+    /* Hero */
+    .hero .container {
+        gap: 20px;
+        padding: 20px;
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+    .hero-text .subheader { font-size: 1rem; max-width: 100%; margin: 0 auto 18px; }
+    .hero-img { min-width: 0; }
+
+    /* Cards */
+    .card { padding: 22px; border-radius: 14px; }
+    .role-card { padding: 22px; }
+
+    /* Grids become single column */
+    .why-grid, .role-grid, .comparison-grid { grid-template-columns: 1fr; gap: 20px; }
+
+    /* Comparison list spacing */
+    .disconnected-column, .connected-column { padding: 12px 0; }
+
+    /* CTA */
+    .cta-section h2 { font-size: clamp(1.3rem, 5vw, 2rem); }
+    .cta-section p { font-size: 1rem; padding: 0 8px; }
+
+    /* Footer stacks vertically */
+    .footer { flex-direction: column; gap: 8px; text-align: center; align-items: center; }
+    .footer > * { width: 100%; max-width: 520px; display: block; }
+
+    /* Nav: Menu styles for full-screen overlay */
+    .nav-menu .nav-link,
+    .nav-menu .nav-btn { font-size: 1.25rem; padding: 12px 18px; }
+
+    /* Hamburger transform when active */
+    .nav-toggle .hamburger { background: var(--white); }
+    .nav-toggle.active .hamburger { background: transparent; }
+    .nav-toggle.active .hamburger::before { transform: translateY(8px) rotate(45deg); }
+    .nav-toggle.active .hamburger::after  { transform: translateY(-8px) rotate(-45deg); }
+
+    /* Ensure hero headings are not too tall */
+    .hero-text h1 { font-size: clamp(1.8rem, 7.5vw, 2.6rem); }
+}
+
+/* 🔄 RESPONSIVE FIX: Global Nav Toggle Logic (Applies to all screens showing the toggle) */
+@media (max-width: 991px) { 
+    .nav-toggle { display: inline-flex; align-items: center; justify-content: center; }
+
+    .nav-menu {
+        position: fixed;
+        inset: 0;
+        left: 100%; /* Hidden off-screen by default */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 24px;
+        padding: 40px 20px;
+        background: var(--maroon);
+        transition: left .32s cubic-bezier(.22,.9,.28,1);
+        z-index: 1100;
+    }
+    .nav-menu.active { left: 0; }
+}
+
+/* ---------- Small tablets / large phones 480–767px (Grids stacked) ---------- */
+@media (min-width: 480px) and (max-width: 767px) {
+    .hero, .why, .role-based-section, .dashboard-showcase, .classroom-comparison-section { padding: 64px 0; }
+    .hero .container { padding: 28px; gap: 28px; flex-direction: column; text-align: center; }
+    .hero-text h1 { font-size: clamp(2.2rem, 6.5vw, 3rem); }
+
+    /* 🔄 RESPONSIVE FIX: Keep grids stacked for smaller tablets */
+    .why-grid { grid-template-columns: 1fr; gap: 28px; }
+    .role-grid { grid-template-columns: 1fr; gap: 28px; }
+    .comparison-grid { grid-template-columns: 1fr; gap: 28px; }
+
+    .nav-menu .nav-link, .nav-menu .nav-btn { font-size: 1.2rem; }
+}
+
+/* ---------- Tablets & small desktops 768–991px (Grids go 2-column) ---------- */
+@media (min-width: 768px) and (max-width: 991px) {
+
+    /* Layout: hero becomes two-column if space allows, otherwise stacks */
+    .hero .container { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 36px; padding: 36px; }
+    .hero-text { flex: 1 1 380px; min-width: 280px; }
+    .hero-img  { flex: 1 1 300px; min-width: 260px; }
+
+    /* 🔄 RESPONSIVE FIX: Grids adapt to two columns */
+    .why-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; }
+    .role-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+    .comparison-grid { grid-template-columns: 1fr 1fr; gap: 30px; }
+
+    /* Typography scale */
+    h1 { font-size: clamp(2.6rem, 4.5vw, 3.2rem); }
+    h2 { font-size: clamp(1.6rem, 2.4vw, 2.4rem); }
+
+    .nav-menu { height: 100vh; }
+    .nav-menu .nav-link, .nav-menu .nav-btn { font-size: 1.1rem; }
+}
+
+/* ---------- Desktops 992px+ (Standard Layout) ---------- */
+@media (min-width: 992px) {
+    .hero .container { padding: 48px; gap: 60px; }
+    .why .container { padding: 60px 48px; }
+    .role-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .why-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+
+    h1 { font-size: clamp(3rem, 2.8vw, 4rem); }
+    h2 { font-size: clamp(2rem, 1.6vw, 2.8rem); }
+
+    /* Nav toggle hidden on wide screens */
+    .nav-toggle { display: none; }
+
+    /* Nav menu is static and visible on wide screens */
+    .nav-menu { position: static; height: auto; left: 0; display: flex; flex-direction: row; gap: 12px; background: transparent; padding: 0; }
+}
+
+/* ---------- Large desktops / ultra-wide 1400px+ ---------- */
+@media (min-width: 1400px) {
+    .container { max-width: 1500px; }
+    .hero .container { padding: 72px; gap: 80px; }
+    .card { padding: 48px; }
+    .role-card { padding: 60px; }
+}
+
+/* ---------- Orientation-specific tweaks ---------- */
+/* Landscape phones: reduce vertical padding to fit content without scrolling */
+@media (orientation: landscape) and (max-width: 900px) {
+    .hero, .why, .role-based-section { padding-top: 36px; padding-bottom: 36px; }
+    .hero .container { padding: 20px; gap: 20px; }
+    .hero-text h1 { font-size: clamp(1.6rem, 6.5vw, 2.4rem); }
+}
+
+/* Landscape tablets and small laptops: adjust grid columns to avoid tall stacks */
+@media (orientation: landscape) and (min-width: 900px) and (max-width: 1280px) {
+    .why-grid { grid-template-columns: repeat(2, 1fr); }
+    .comparison-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ---------- Accessibility: respect reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+    * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+}
