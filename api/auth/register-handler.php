@@ -1,0 +1,297 @@
+<?php
+
+require_once '../../includes/config.php';
+require_once '../../includes/session.php';
+require_once '../../includes/functions.php';
+require_once '../../includes/email-config.php';
+
+if (isLoggedIn()) {
+    redirectToDashboard();
+}
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    redirectWithMessage(BASE_URL . 'auth/login.php', 'danger', 'Invalid request method.');
+}
+
+// Sanitize and validate common fields
+$email = filter_var(trim($_POST['email'] ?? ''), FILTER_SANITIZE_EMAIL);
+$password = $_POST['password'] ?? '';
+$confirm_password = $_POST['confirm_password'] ?? '';
+$role = strtolower(trim($_POST['role'] ?? ''));
+
+// Validate role
+if (!in_array($role, ['student', 'teacher', 'professor'])) {
+    redirectWithMessage(BASE_URL . 'auth/login.php', 'danger', 'Invalid role specified.');
+}
+
+// Set redirect page based on role
+$redirect_page = ($role === 'student') ? 'student-register.php' : 'teacher-register.php';
+
+// Validate required common fields
+if (empty($email) || empty($password) || empty($confirm_password)) {
+    redirectWithMessage(BASE_URL . 'auth/' . $redirect_page, 'danger', 'All required fields must be filled.');
+}
+
+// Validate email format
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    redirectWithMessage(BASE_URL . 'auth/' . $redirect_page, 'danger', 'Invalid email format.');
+}
+
+// Validate password match
+if ($password !== $confirm_password) {
+    redirectWithMessage(BASE_URL . 'auth/' . $redirect_page, 'danger', 'Passwords do not match.');
+}
+
+// Validate password length
+if (strlen($password) < 8) {
+    redirectWithMessage(BASE_URL . 'auth/' . $redirect_page, 'danger', 'Password must be at least 8 characters long.');
+}
+
+// Hash password securely
+$hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+try {
+    // Check if email already exists
+    $stmt = $conn->prepare("SELECT user_id, email FROM users WHERE email = ?");
+    $stmt->execute([$email]);
+    
+    if ($stmt->fetch()) {
+        redirectWithMessage(BASE_URL . 'auth/' . $redirect_page, 'danger', 'This email is already registered. Please use a different email or login.');
+    }
+    
+    // ==================== STUDENT REGISTRATION ====================
+    if ($role === 'student') {
+        
+        // Sanitize student-specific fields
+        $first_name = trim($_POST['first_name'] ?? '');
+        $middle_name = trim($_POST['middle_name'] ?? '');
+        $last_name = trim($_POST['last_name'] ?? '');
+        $program = trim($_POST['program'] ?? '');
+        $year_section = strtoupper(trim($_POST['year_section'] ?? '')); 
+        $student_number = trim($_POST['student_number'] ?? '');
+        $contact_number = trim($_POST['contact_number'] ?? '');
+        
+        if (empty($first_name) || empty($last_name) || empty($program) || empty($year_section) || empty($student_number)) {
+            redirectWithMessage(BASE_URL . 'auth/student-register.php', 'danger', 'All required fields must be filled.');
+        }
+        
+        if (!preg_match('/^[a-zA-Z\s]+$/', $first_name)) {
+            redirectWithMessage(BASE_URL . 'auth/student-register.php', 'danger', 'First name must contain only letters.');
+        }
+        
+        if (!preg_match('/^[a-zA-Z\s]+$/', $last_name)) {
+            redirectWithMessage(BASE_URL . 'auth/student-register.php', 'danger', 'Last name must contain only letters.');
+        }
+        
+        if (!empty($middle_name) && !preg_match('/^[a-zA-Z\s]+$/', $middle_name)) {
+            redirectWithMessage(BASE_URL . 'auth/student-register.php', 'danger', 'Middle name must contain only letters.');
+        }
+        
+        $valid_programs = ['BSIT', 'BSCS', 'ACT', 'BSIS'];
+        if (!in_array($program, $valid_programs)) {
+            redirectWithMessage(BASE_URL . 'auth/student-register.php', 'danger', 'Invalid program selected.');
+        }
+        
+        if (!preg_match('/^[1-4]-[A-Z]$/', $year_section)) {
+            redirectWithMessage(BASE_URL . 'auth/student-register.php', 'danger', 'Year & Section must be in format: 1-A, 2-B, 3-C, or 4-D (year 1-4, section A-Z).');
+        }
+        
+        if (!preg_match('/^\d{10}$/', $student_number)) {
+            redirectWithMessage(BASE_URL . 'auth/student-register.php', 'danger', 'Student number must be exactly 10 digits.');
+        }
+        
+        if (!empty($contact_number)) {
+            $contact_number = preg_replace('/[^0-9]/', '', $contact_number);
+            
+            if (strlen($contact_number) !== 11) {
+                redirectWithMessage(BASE_URL . 'auth/student-register.php', 'danger', 'Contact number must be exactly 11 digits.');
+            }
+            
+            if (!preg_match('/^09\d{9}$/', $contact_number)) {
+                redirectWithMessage(BASE_URL . 'auth/student-register.php', 'danger', 'Contact number must start with 09 (Philippine format).');
+            }
+        }
+        
+        if (!empty($middle_name)) {
+            $full_name = $first_name . ' ' . $middle_name . ' ' . $last_name;
+        } else {
+            $full_name = $first_name . ' ' . $last_name;
+        }
+        
+        $stmt = $conn->prepare("
+            SELECT user_id 
+            FROM users 
+            WHERE email LIKE CONCAT('%', ?, '%') AND role = 'student'
+        ");
+        $stmt->execute([$student_number]);
+        
+        if ($stmt->fetch()) {
+            redirectWithMessage(BASE_URL . 'auth/student-register.php', 'danger', 'This student number is already registered.');
+        }
+        
+        $verification_code = generateVerificationCode();
+        $expires_at = date('Y-m-d H:i:s', strtotime('+' . VERIFICATION_CODE_EXPIRY . ' minutes'));
+        
+        // Send verification email
+        $email_sent = sendVerificationEmail($email, $full_name, $verification_code);
+        
+        if (!$email_sent) {
+            redirectWithMessage(BASE_URL . 'auth/student-register.php', 'danger', 'Failed to send verification email. Please check your email address and try again.');
+        }
+        
+        $_SESSION['pending_registration'] = [
+            'email' => $email,
+            'password' => $hashed_password,
+            'full_name' => $full_name,
+            'first_name' => $first_name,
+            'middle_name' => $middle_name,
+            'last_name' => $last_name,
+            'role' => 'student',
+            'contact_number' => $contact_number ?: null,
+            'student_number' => $student_number,
+            'program' => $program,
+            'year_section' => $year_section, 
+            'verification_code' => $verification_code,
+            'expires_at' => $expires_at,
+            'code_id' => null,
+            'profile_picture' => null 
+        ];
+        
+        // Redirect to verification page
+        redirectWithMessage(
+            BASE_URL . 'auth/verify-email.php',
+            'success',
+            'Registration successful! Please check your email for the verification code.'
+        );
+    }
+    
+    // ==================== TEACHER REGISTRATION ====================
+    
+elseif ($role === 'teacher' || $role === 'professor') {
+    
+    $first_name = trim($_POST['first_name'] ?? '');
+    $middle_name = trim($_POST['middle_name'] ?? '');
+    $last_name = trim($_POST['last_name'] ?? '');
+    $invitation_code = trim($_POST['invitation_code'] ?? '');
+    $contact_number = trim($_POST['contact_number'] ?? '');
+    
+    error_log("=== TEACHER REGISTRATION DEBUG ===");
+    error_log("First Name: " . $first_name);
+    error_log("Middle Name: " . $middle_name);
+    error_log("Last Name: " . $last_name);
+    error_log("Invitation Code: " . $invitation_code);
+    error_log("Contact Number: " . $contact_number);
+    
+    if (empty($first_name) || empty($middle_name) || empty($last_name) || empty($invitation_code) || empty($contact_number)) {
+        error_log("Required fields missing");
+        redirectWithMessage(BASE_URL . 'auth/teacher-register.php', 'danger', 'All fields are required for teacher registration.');
+    }
+    
+    if (!preg_match('/^[a-zA-Z\s]+$/', $first_name)) {
+        redirectWithMessage(BASE_URL . 'auth/teacher-register.php', 'danger', 'First name must contain only letters.');
+    }
+    
+    if (!preg_match('/^[a-zA-Z\s]+$/', $middle_name)) {
+        redirectWithMessage(BASE_URL . 'auth/teacher-register.php', 'danger', 'Middle name must contain only letters.');
+    }
+    
+    if (!preg_match('/^[a-zA-Z\s]+$/', $last_name)) {
+        redirectWithMessage(BASE_URL . 'auth/teacher-register.php', 'danger', 'Last name must contain only letters.');
+    }
+    
+    $full_name = $first_name . ' ' . $middle_name . ' ' . $last_name;
+    error_log("Full Name: " . $full_name);
+    
+    $contact_number = preg_replace('/[^0-9]/', '', $contact_number);
+    
+    if (strlen($contact_number) !== 11) {
+        redirectWithMessage(BASE_URL . 'auth/teacher-register.php', 'danger', 'Contact number must be exactly 11 digits.');
+    }
+    
+    if (!preg_match('/^09\d{9}$/', $contact_number)) {
+        redirectWithMessage(BASE_URL . 'auth/teacher-register.php', 'danger', 'Contact number must start with 09 (Philippine format).');
+    }
+    
+    // MODIFIED: Only check if code exists, allow reuse
+    $stmt = $conn->prepare("
+        SELECT code_id 
+        FROM teacher_codes 
+        WHERE invitation_code = ?
+    ");
+    $stmt->execute([$invitation_code]);
+    $code_info = $stmt->fetch();
+    
+    if (!$code_info) {
+        error_log("Invalid invitation code: " . $invitation_code);
+        redirectWithMessage(BASE_URL . 'auth/teacher-register.php', 'danger', 'Invalid invitation code. Please check and try again.');
+    }
+    
+    // REMOVED: No longer checking if code is_used
+    error_log("Invitation code valid, code_id: " . $code_info['code_id']);
+    
+    $verification_code = generateVerificationCode();
+    $expires_at = date('Y-m-d H:i:s', strtotime('+' . VERIFICATION_CODE_EXPIRY . ' minutes'));
+    
+    error_log("Verification code: " . $verification_code);
+    error_log("Expires at: " . $expires_at);
+    
+    $email_sent = sendVerificationEmail($email, $full_name, $verification_code);
+    
+    if (!$email_sent) {
+        error_log("Failed to send verification email to: " . $email);
+        redirectWithMessage(BASE_URL . 'auth/teacher-register.php', 'danger', 'Failed to send verification email. Please check your email address and try again.');
+    }
+    
+    error_log("Verification email sent successfully");
+    
+    $_SESSION['pending_registration'] = [
+        'email' => $email,
+        'password' => $hashed_password,
+        'full_name' => $full_name,
+        'first_name' => $first_name,
+        'middle_name' => $middle_name,
+        'last_name' => $last_name,
+        'role' => 'teacher',
+        'contact_number' => $contact_number,
+        'student_number' => null,
+        'program' => null,
+        'year_section' => null,
+        'verification_code' => $verification_code,
+        'expires_at' => $expires_at,
+        'code_id' => $code_info['code_id'],
+        'profile_picture' => null 
+    ];
+    
+    error_log("Session data stored: " . print_r($_SESSION['pending_registration'], true));
+    error_log("=== END TEACHER REGISTRATION DEBUG ===");
+    
+    redirectWithMessage(
+        BASE_URL . 'auth/verify-email.php',
+        'success',
+        'Registration successful! Please check your email for the verification code.'
+    );
+}
+    
+} catch (PDOException $e) {
+    
+    error_log("Database Error in Registration: " . $e->getMessage());
+    error_log("Stack trace: " . $e->getTraceAsString());
+    
+    redirectWithMessage(
+        BASE_URL . 'auth/' . $redirect_page, 
+        'danger', 
+        'A database error occurred. Please try again later. If the problem persists, contact support.'
+    );
+    
+} catch (Exception $e) {
+
+    error_log("Registration Error: " . $e->getMessage());
+    error_log("Stack trace: " . $e->getTraceAsString());
+    
+    redirectWithMessage(
+        BASE_URL . 'auth/' . $redirect_page, 
+        'danger', 
+        'An unexpected error occurred during registration. Please try again.'
+    );
+}
+?>
